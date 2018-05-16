@@ -1,0 +1,65 @@
+resources:
+
+# source code
+- name: docker-foo
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:username/docker-foo.git
+
+# foo docker image
+- name: foo-docker-image
+  type: docker-image
+  source:
+    repository: docker.your-company.com/username/foo
+
+# docker-foo pull request resource
+- name: docker-foo-pull-request
+  type: pull-request
+  source:
+    uri: git@github.comcast.com:aae/cloud-tools.git
+    repo: username/docker-foo
+
+resource_types:
+
+- name: pull-request
+  type: docker-image
+  source:
+    repository: jtarchie/pr
+
+jobs:
+
+# verify a pull request
+- name: verify-pull-request
+  plan:
+  - get: docker-foo-pull-request
+    trigger: true
+  - put: docker-foo-pull-request
+    params:
+      path: docker-foo-pull-request
+      status: pending
+  # test in ConcourseCI that the PR's `Dockerfile` edits work as expected:
+  - put: foo-docker-image
+    params:
+      build: docker-foo-pull-request
+    on_success:
+      put: docker-foo-pull-request
+      params:
+        path: docker-foo-pull-request
+        status: success
+    on_failure:
+      put: docker-foo-pull-request
+      params:
+        path: docker-foo-pull-request
+        status: failure
+
+# build foo docker image from `master`
+- name: publish-docker-image
+  serial: true
+  plan:
+  - get: docker-foo
+    trigger: false
+  - put: foo-docker-image
+    params:
+      build: foo
+      tag: foo/version
