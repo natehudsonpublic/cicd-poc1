@@ -1,6 +1,10 @@
 sudo: required
 dist: trusty
 
+language: node_js
+node_js:
+- node
+
 services:
   - docker
 
@@ -24,9 +28,7 @@ jobs:
     #- script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
 
 
-#language: node_js
-#node_js:
-#- node
+
 
 addons:
   apt:
