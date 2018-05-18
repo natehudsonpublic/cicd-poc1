@@ -10,11 +10,9 @@ jobs:
       script: make build
     - stage: push
       script: make push
-    - stage: test-unit
+    - stage: test- unit, container scan, static code analysis
       script: make test-unit
-    - stage: test-container-scan
       script: make test-container-scan
-    - stage: test-static-code-analysis
       script: make test-static-code-analysis
     - stage: alert-qa
       script: make alert-qa
@@ -40,4 +38,4 @@ notifications:
     on_failure: always # default: always
     on_start: always   # default: never
     on_cancel: always # default: always
-    on_error: always # default: always    
+    on_error: always # default: always
