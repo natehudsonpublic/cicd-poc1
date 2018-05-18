@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-- docker pull natehudson/cicd-poc1-docker
+- docker pull natehudsonpublic/cicd-poc1-docker
 #- docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
 - docker ps -a
 
