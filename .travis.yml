@@ -12,6 +12,12 @@ jobs:
       script: make push
     - stage: test-unit
       script: make test-unit
+    - stage: test-container-scan
+      script: make test-container-scan
+    - stage: test-static-code-analysis
+      script: make test-static-code-analysis
+    - stage: alert-qa
+      script: make alert-qa
 
     #- stage: test
     #  script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
