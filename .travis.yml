@@ -10,7 +10,7 @@ jobs:
       script: make build
     - stage: push
       script: make push
-    - stage: test- unit, container scan, static code analysis
+    - stage: test
       script: make test-unit
       script: make test-container-scan
       script: make test-static-code-analysis

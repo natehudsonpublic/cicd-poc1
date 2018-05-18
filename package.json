@@ -1,5 +1,5 @@
 {
-  "name": "natehudsonpublic-cicd-poc1",
+  "name": "cicd-poc1",
   "description": "Simple Travis-CI check for JSHint (Code Linting)",
   "author": "natehudsonpublic",
   "version": "0.0.1",
@@ -7,7 +7,8 @@
     "jshint": "^2.9.5"
   },
   "scripts": {
-    "test": "jshint hello.js"
+    "test": "jshint hello.js",
+    "start": "node hello.js"
   },
   "dependencies": {
     "npm": "^6.0.1"
