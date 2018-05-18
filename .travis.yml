@@ -1,9 +1,22 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+- docker pull natehudson/cicd-poc1-docker
+#- docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
+- docker ps -a
+
 language: node_js
+
 node_js:
 - node
+
 addons:
   apt:
     update: true
+
 notifications:
   slack:
     secure: ut3OGT+eA0c4bRtE5DVTOWUDxOw/mCBFcREODB//zPy3nbgD1zsuv3vC/6TgbmccmKyeG1rDMcNJ0yY/Gjv6c5aAoX2iHQYf3Wv7gkZWcki/fGvKJ5k8sjgtx6CqKXRVegIVJxlxkHKOyKvf70p8LqFfboAALYWd6Cq/hcMRRgsZEEx1lJocLrvsulbswAnRWD32GAI4GfwLBnk/wKVCPscnCX6zv1xZuI7Z5LdQ0zHjkpyBDfNw9nPBKgFvKIYqqnyxFIji7z9QHM9BM6DWqgmQQc4mO76Gq5vp7Bg3jzOIEtBVN2WRWlJMMO0DIfH1lN+/F++80ITNxTy0cbuW8e79O4n627r+zuyv+N7/M4u0raRBAEkfAwCfnSnh/AEk3MgepMRCB0R/uulHwh1XllYtd+gFJ/+GJJMI0yZgO6Db+6zH2Dz7PkqeCdpPaGSQ4NKzWDI4xk6Ms9BQ5HDwqRNojy2MlEDB2vkQSrIu62qQp/9LNipjDh3S257+NcdxhswGVKHvcPYQI17s9xBsiI68WtMVAGpoc3FhpeZaF0x1JEu/vCl7W6TGBi7myC/s3Z7vNo3+zPvrLMxLLTrD/a4DWc2ZS5Uf0xdLo4tGPbNRuSuOpWEFfpGQQQ+POq2A5H9KTU6k/kxRoXBabgRrFYCKoZWEiWaSKNHPuMLX+f4=
