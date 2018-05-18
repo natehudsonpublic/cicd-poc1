@@ -1,9 +1,10 @@
 .PHONY: build push deploy help
 .DEFAULT_GOAL:= help
 
+GIT_SHA := $(shell git rev-parse --short HEAD)
 IMAGE_REGISTRY ?= hub.docker.com
-IMAGE = natehudsonpublic-poc1-docker
-TAG ?= latest
+IMAGE_NAME ?= poc1
+IMAGE_TAG ?= $(GIT_SHA)
 ENV_NAME ?= stg
 
 #TARGET_PORT=8080
@@ -78,7 +79,8 @@ help:
 	@echo "The following build/deploy options are available. Default values shown."
 	@echo "	..."
 	@echo "	IMAGE_REGISTRY="$$IMAGE_REGISTRY
-	@echo "	TAG="$$TAG
+	@echo "	IMAGE_NAME="$$IMAGE_NAME
+	@echo "	IMAGE_TAG="$$IMAGE_TAG
 	@echo "	ENV_NAME="$$ENV_NAME
 	@echo "	..."
 	@echo "	Optional ENV_NAME Values: lift, stg, production"
