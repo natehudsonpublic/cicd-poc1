@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "RUNNING: docker run -p 8080:8080 $DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG}"
+docker run -p ${TARGET_PORT}:${TARGET_PORT} $DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG} 

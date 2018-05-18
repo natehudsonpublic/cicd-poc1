@@ -5,8 +5,19 @@ echo "IMAGE_REGISTRY=${IMAGE_REGISTRY}"
 echo "IMAGE_NAME=${IMAGE_NAME}"
 echo "IMAGE_TAG=${IMAGE_TAG}"
 
-#echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#docker build -t travis-ci-build-stages-demo .
-#docker images
-#docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
-#docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
+if [[ -z $DOCKER_USERNAME ]] || [[ -z $DOCKER_PASSWORD ]]; then
+	echo "Error: You need to set DOCKER_USERNAME and DOCKER_PASSWORD"
+	exit 1;
+fi
+
+echo "# login"
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+echo "# build"
+docker build -t $DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG} .
+
+echo "# check"
+docker images | grep -i ${IMAGE_NAME}
+
+echo "# push"
+docker push $DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG}

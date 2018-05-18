@@ -3,14 +3,16 @@
   "description": "Simple Travis-CI check for JSHint (Code Linting)",
   "author": "natehudsonpublic",
   "version": "0.0.1",
+  "main": "server.js",
   "devDependencies": {
     "jshint": "^2.9.5"
   },
   "scripts": {
-    "test": "jshint hello.js",
-    "start": "node hello.js"
+    "test": "jshint server.js",
+    "start": "node server.js"
   },
   "dependencies": {
-    "npm": "^6.0.1"
+    "npm": "^6.0.1",
+    "express": "^4.16.1"
   }
 }

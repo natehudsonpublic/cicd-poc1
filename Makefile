@@ -2,12 +2,11 @@
 .DEFAULT_GOAL:= help
 
 GIT_SHA := $(shell git rev-parse --short HEAD)
-IMAGE_REGISTRY ?= hub.docker.com
-IMAGE_NAME ?= poc1
+IMAGE_REGISTRY ?= docker.io
+IMAGE_NAME ?= cicd-poc1
 IMAGE_TAG ?= $(GIT_SHA)
 ENV_NAME ?= stg
-
-#TARGET_PORT=8080
+TARGET_PORT ?= 8080
 
 ifeq ($(ENV_NAME),production)
 	TLD = com
@@ -24,6 +23,10 @@ export
 # CICD test
 #ENV_NAME = stg
 #PLATFORM = gke_
+
+## Local Testing
+run:
+	./make-steps/run.sh
 
 ## Development
 build:
