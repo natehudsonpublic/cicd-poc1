@@ -1,13 +1,16 @@
 sudo: required
 dist: trusty
 
+# setup the basics for a nodeJS project
 language: node_js
 node_js:
 - node
 
+# we need docker too
 services:
   - docker
 
+# these are the pipeline stages, anything with the same name, like 'test' will be executed in parallel
 jobs:
   include:
     - stage: build
