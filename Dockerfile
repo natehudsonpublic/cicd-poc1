@@ -1,5 +1,10 @@
 FROM node:carbon
 
+ARG GIT_SHA
+ENV GIT_SHA $GIT_SHA
+
+RUN echo "Building GIT_SHA: $GIT_SHA"
+
 # Create app directory
 WORKDIR /usr/src/app
 

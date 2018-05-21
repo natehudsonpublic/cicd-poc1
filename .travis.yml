@@ -32,6 +32,12 @@ jobs:
         user: $OPENSHIFT_USERNAME
         password: $OPENSHIFT_PASSWORD
         domain: $OPENSHIFT_DOMAIN
+        domain:
+          develop: $OPENSHIFT_DOMAIN
+          master: $OPENSHIFT_DOMAIN
+        app:
+          develop: cicd-poc1-develop
+          master: cicd-poc1-master
         skip_cleanup: true
         on:
           tags: true
