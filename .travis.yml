@@ -26,21 +26,16 @@ jobs:
     - stage: alert-qa
       script: make alert-qa
     - stage: Deploy to Develop
-      script: echo "Deploying to Develop..."
+      script: echo "Deploying Develop Branch..."
       deploy:
         provider: openshift
         user: $OPENSHIFT_USERNAME
         password: $OPENSHIFT_PASSWORD
         domain: $OPENSHIFT_DOMAIN
-        domain:
-          develop: $OPENSHIFT_DOMAIN
-          master: $OPENSHIFT_DOMAIN
-        app:
-          develop: cicd-poc1-develop
-          master: cicd-poc1-master
+        app: cicd-poc1-develop
         skip_cleanup: true
         on:
-          tags: true
+          branch: develop
 
     #- stage: test
     #  script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
