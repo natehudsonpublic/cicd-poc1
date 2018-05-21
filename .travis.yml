@@ -25,6 +25,16 @@ jobs:
       script: make test-static-code-analysis
     - stage: alert-qa
       script: make alert-qa
+    - stage: Deploy to Sandbox
+      script: echo "Deploying to Sandbox..."
+      deploy:
+        provider: openshift
+        user: $OPENSHIFT_USERNAME
+        password: $OPENSHIFT_PASSWORD
+        domain: $OPENSHIFT_DOMAIN
+        skip_cleanup: true
+        on:
+          tags: true
 
     #- stage: test
     #  script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
