@@ -25,8 +25,8 @@ jobs:
       script: make test-static-code-analysis
     - stage: alert-qa
       script: make alert-qa
-    - stage: Deploy to Sandbox
-      script: echo "Deploying to Sandbox..."
+    - stage: Deploy to Develop
+      script: echo "Deploying to Develop..."
       deploy:
         provider: openshift
         user: $OPENSHIFT_USERNAME
