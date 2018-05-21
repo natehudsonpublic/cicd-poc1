@@ -5,11 +5,19 @@ const express = require('express');
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
+const GIT_SHA = process.env.GIT_SHA || 'undefined';
 
 // App
 const app = express();
+
+//console.log(process.env);
+
 app.get('/', (req, res) => {
-  res.send('Hello world\n');
+  res.send('Hello world!\n<br \>\n<br \><pre>sha:'+GIT_SHA+'</pre>');
+});
+
+app.get('/healthCheck', (req, res) => {
+  res.send('healthy\n');
 });
 
 app.listen(PORT, HOST);

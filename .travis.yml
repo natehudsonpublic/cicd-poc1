@@ -25,17 +25,18 @@ jobs:
       script: make test-static-code-analysis
     - stage: alert-qa
       script: make alert-qa
-    - stage: Deploy to Develop
-      script: echo "Deploying Develop Branch..."
-      deploy:
-        provider: openshift
-        user: $OPENSHIFT_USERNAME
-        password: $OPENSHIFT_PASSWORD
-        domain: $OPENSHIFT_DOMAIN
-        app: cicd-poc1-develop
-        skip_cleanup: true
-        on:
-          branch: develop
+    # travis openshift deployment is broken
+    #- stage: Deploy to Develop
+    #  script: echo "Deploying Develop Branch..."
+    #  deploy:
+    #    provider: openshift
+    #    user: $OPENSHIFT_USERNAME
+    #    password: $OPENSHIFT_PASSWORD
+    #    domain: $OPENSHIFT_DOMAIN
+    #    app: cicd-poc1-develop
+    #    skip_cleanup: true
+    #    on:
+    #      branch: develop
 
     #- stage: test
     #  script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
