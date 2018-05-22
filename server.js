@@ -13,7 +13,7 @@ const app = express();
 //console.log(process.env);
 
 app.get('/', (req, res) => {
-  res.send('<h1>CICD poc1</h1>\n<br \>\n<br \><pre>sha:'+GIT_SHA+'</pre>');
+  res.send('<h1>CICD poc1</h1>\n<br \>\n<br \><pre>sha:'+GIT_SHA+'</pre><pre>a</pre>');
 });
 
 app.get('/healthCheck', (req, res) => {
