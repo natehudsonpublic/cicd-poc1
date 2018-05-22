@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "# START build"
+
+if [[ ! -z $TRAVIS_BRANCH ]]; then
+	echo "# overriding GIT_BRANCH with TRAVIS_BRANCH"
+	GIT_BRANCH=$TRAVIS_BRANCH
+fi
+
 echo "GIT_SHA=${GIT_SHA}"
 echo "GIT_BRANCH=${GIT_BRANCH}"
 echo "IMAGE_REGISTRY=${IMAGE_REGISTRY}"
