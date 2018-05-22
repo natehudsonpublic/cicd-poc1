@@ -1,0 +1,239 @@
+{
+  "description": "Deploying ${.trigger.artifacts[0].version}",
+  "expectedArtifacts": [
+    {
+      "defaultArtifact": {
+        "kind": "default.docker",
+        "type": "docker/image"
+      },
+      "id": "94f4b665-e646-4e8a-b051-5bf53068e3a9",
+      "matchArtifact": {
+        "kind": "docker",
+        "name": "index.docker.io/natehudsonpublic/cicd-poc1",
+        "type": "docker/image"
+      },
+      "useDefaultArtifact": false,
+      "usePriorArtifact": true,
+      "usePriorExecution": false
+    }
+  ],
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "notifications": [
+    {
+      "address": "cicd",
+      "level": "pipeline",
+      "type": "slack",
+      "when": [
+        "pipeline.starting",
+        "pipeline.complete",
+        "pipeline.failed"
+      ]
+    }
+  ],
+  "parameterConfig": [],
+  "stages": [
+    {
+      "account": "nate-gke",
+      "cloudProvider": "kubernetes",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "manifestArtifactAccount": "embedded-artifact",
+      "manifests": [
+        {
+          "apiVersion": "v1",
+          "data": {
+            "NEW_FEATURE": "true"
+          },
+          "kind": "ConfigMap",
+          "metadata": {
+            "name": "cicdpoc1-config",
+            "namespace": "default"
+          }
+        },
+        {
+          "apiVersion": "apps/v1beta2",
+          "kind": "Deployment",
+          "metadata": {
+            "labels": {
+              "app": "cicdpoc1",
+              "source": "demo",
+              "stack": "develop"
+            },
+            "name": "cicd-poc1",
+            "namespace": "default"
+          },
+          "spec": {
+            "replicas": 3,
+            "selector": {
+              "matchLabels": {
+                "app": "cicdpoc1",
+                "source": "demo"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "cicdpoc1",
+                  "source": "demo"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "envFrom": [
+                      {
+                        "configMapRef": {
+                          "name": "cicdpoc1-config"
+                        }
+                      }
+                    ],
+                    "image": "index.docker.io/natehudsonpublic/cicd-poc1",
+                    "name": "primary",
+                    "ports": [
+                      {
+                        "containerPort": 8080
+                      }
+                    ],
+                    "readinessProbe": {
+                      "httpGet": {
+                        "path": "/",
+                        "port": 8080
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "cicdpoc1",
+            "namespace": "default"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 80,
+                "protocol": "TCP",
+                "targetPort": 8080
+              }
+            ],
+            "selector": {
+              "app": "cicdpoc1",
+              "source": "demo"
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "cicdpoc1",
+        "cluster": "gke_nates-project-203014_us-central1-a_nate-cluster-2",
+        "stack": "develop"
+      },
+      "name": "Deploy (Manifest)",
+      "refId": "1",
+      "relationships": {
+        "loadBalancers": [],
+        "securityGroups": []
+      },
+      "requiredArtifactIds": [
+        "94f4b665-e646-4e8a-b051-5bf53068e3a9"
+      ],
+      "requisiteStageRefIds": [],
+      "source": "text",
+      "type": "deployManifest"
+    },
+    {
+      "application": "cicdpoc1",
+      "failPipeline": true,
+      "instructions": "Does everything look OK?",
+      "judgmentInputs": [
+        {
+          "value": "Yes"
+        },
+        {
+          "value": "No"
+        }
+      ],
+      "name": "Manual Judgment",
+      "notifications": [
+        {
+          "address": "cicd",
+          "level": "stage",
+          "type": "slack",
+          "when": [
+            "manualJudgment",
+            "manualJudgmentContinue",
+            "manualJudgmentStop"
+          ]
+        }
+      ],
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "sendNotifications": true,
+      "type": "manualJudgment",
+      "waitForCompletion": true
+    },
+    {
+      "account": "nate-gke",
+      "cloudProvider": "kubernetes",
+      "kind": "deployment",
+      "location": "default",
+      "manifestName": "deployment cicd-poc1",
+      "name": "Undo Rollout (Manifest)",
+      "notifications": [
+        {
+          "address": "cicd",
+          "level": "stage",
+          "type": "slack",
+          "when": [
+            "stage.starting",
+            "stage.complete",
+            "stage.failed"
+          ]
+        }
+      ],
+      "numRevisionsBack": 1,
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "sendNotifications": true,
+      "stageEnabled": {
+        "expression": "${ #judgment(\"Manual Judgment\").equals(\"No\")}",
+        "type": "expression"
+      },
+      "type": "undoRolloutManifest"
+    }
+  ],
+  "triggers": [
+    {
+      "branch": "develop",
+      "enabled": false,
+      "project": "natehudsonpublic",
+      "slug": "cicd-poc1",
+      "source": "github",
+      "type": "git"
+    },
+    {
+      "account": "dockerhub-natehudsonpublic",
+      "enabled": true,
+      "expectedArtifactIds": [
+        "94f4b665-e646-4e8a-b051-5bf53068e3a9"
+      ],
+      "organization": "natehudsonpublic",
+      "registry": "index.docker.io",
+      "repository": "natehudsonpublic/cicd-poc1",
+      "type": "docker"
+    }
+  ],
+  "updateTs": "1527005806323"
+}

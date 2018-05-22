@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: primary
-        image: 'index.docker.io/natehudsonpublic/cicd-poc1:5e67c49'
+        image: 'index.docker.io/natehudsonpublic/cicd-poc1'
         ports:
         - containerPort: 8080
         readinessProbe:
