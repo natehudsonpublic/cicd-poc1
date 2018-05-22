@@ -2,6 +2,7 @@
 .DEFAULT_GOAL:= help
 
 GIT_SHA := $(shell git rev-parse --short HEAD)
+GIT_BRANCH := $(shell git symbolic-ref --short -q HEAD)
 IMAGE_REGISTRY ?= docker.io
 IMAGE_NAME ?= cicd-poc1
 IMAGE_TAG ?= $(GIT_SHA)
@@ -79,12 +80,15 @@ deploy:
 
 help:
 	@echo ""
-	@echo "The following build/deploy options are available. Default values shown."
+	@echo "	GIT_SHA="$$GIT_SHA
+	@echo "	GIT_BRANCH="$$GIT_BRANCH
+	@echo ""		
+	@echo "	The following build/deploy options are available. Default values shown."
 	@echo "	..."
 	@echo "	IMAGE_REGISTRY="$$IMAGE_REGISTRY
 	@echo "	IMAGE_NAME="$$IMAGE_NAME
 	@echo "	IMAGE_TAG="$$IMAGE_TAG
 	@echo "	ENV_NAME="$$ENV_NAME
 	@echo "	..."
-	@echo "	Optional ENV_NAME Values: lift, stg, production"
+	@echo "	Optional ENV_NAME Values: "
 	@echo ""
