@@ -2,7 +2,7 @@
 .DEFAULT_GOAL:= help
 
 GIT_SHA := $(shell git rev-parse --short HEAD)
-GIT_BRANCH := $(shell git symbolic-ref --short -q HEAD)
+GIT_BRANCH := $(shell git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 IMAGE_REGISTRY ?= docker.io
 IMAGE_NAME ?= cicd-poc1
 IMAGE_TAG ?= $(GIT_SHA)
