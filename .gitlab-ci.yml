@@ -8,7 +8,13 @@ variables:
 cache:
   paths:
     - node_modules/
-    
+
+image: node
+
+# install locally until we have everything running in a docker container
+before_script:
+ - npm install
+
 #image: docker:stable
 #image: alpine:latest
 #before_script:
@@ -26,18 +32,26 @@ stages:
   - test
   #- deploy
 
-job 1:
+build:
   stage: build
   #script: DOCKER_USERNAME="blah" echo "user=$DOCKER_USERNAME"
   script: make build
 
-job 2:
+test-unit:
   stage: test
   script: make test-unit
 
-job 3:
+test-container-scan::
   stage: test
   script: make test-container-scan
+
+test-static-code-analysis:
+  stage: test
+  script: make test-static-code-analysis
+
+#job 3:
+#  stage: test
+#  script: make test-container-scan
 
 #job 4:
 #  stage: deploy
