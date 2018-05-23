@@ -1,3 +1,19 @@
+# this is NOT for secrets
+variables:
+  key: value
+
+#image: docker:stable
+#image: alpine:latest
+#before_script:
+# - apk -U add make git
+ #- apt-get update --yes
+ #- apt-get install --yes cmake
+ #- docker info
+
+#services:
+#- docker:dind
+#- docker
+
 stages:
   - build
   - test
@@ -5,6 +21,7 @@ stages:
 
 job 1:
   stage: build
+  #script: DOCKER_USERNAME="blah" echo "user=$DOCKER_USERNAME"
   script: make build
 
 job 2:
