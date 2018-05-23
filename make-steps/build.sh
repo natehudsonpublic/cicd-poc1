@@ -38,3 +38,4 @@ docker images | grep -i ${IMAGE_NAME}
 echo "# push"
 docker push $DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG}
 
+
