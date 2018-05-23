@@ -6,7 +6,7 @@ GIT_BRANCH := $(shell git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 IMAGE_REGISTRY ?= docker.io
 IMAGE_NAME ?= cicd-poc1
 IMAGE_TAG ?= $(GIT_SHA)
-ENV_NAME ?= stg
+ENV_NAME ?= dev
 TARGET_PORT ?= 8080
 
 ifeq ($(ENV_NAME),production)

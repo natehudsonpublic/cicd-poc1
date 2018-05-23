@@ -7,6 +7,10 @@ if [[ ! -z $TRAVIS_BRANCH ]]; then
 	GIT_BRANCH=$TRAVIS_BRANCH
 fi
 
+if [[ $GIT_BRANCH == "develop" ]]; then
+	IMAGE_TAG="dev-${IMAGE_TAG}"
+fi
+
 echo "GIT_SHA=${GIT_SHA}"
 echo "GIT_BRANCH=${GIT_BRANCH}"
 echo "IMAGE_REGISTRY=${IMAGE_REGISTRY}"
