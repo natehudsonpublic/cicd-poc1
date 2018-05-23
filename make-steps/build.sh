@@ -7,6 +7,11 @@ if [[ ! -z $TRAVIS_BRANCH ]]; then
 	GIT_BRANCH=$TRAVIS_BRANCH
 fi
 
+if [[ ! -z $CI_COMMIT_REF_NAME ]]; then
+	echo "# overriding GIT_BRANCH with gitlab CI_COMMIT_REF_NAME"
+	GIT_BRANCH=$CI_COMMIT_REF_NAME
+fi
+
 echo "GIT_SHA=${GIT_SHA}"
 echo "GIT_BRANCH=${GIT_BRANCH}"
 echo "IMAGE_REGISTRY=${IMAGE_REGISTRY}"
