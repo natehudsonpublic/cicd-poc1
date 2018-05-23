@@ -82,7 +82,7 @@ help:
 	@echo ""
 	@echo "	GIT_SHA="$$GIT_SHA
 	@echo "	GIT_BRANCH="$$GIT_BRANCH
-	@echo ""		
+	@echo ""
 	@echo "	The following build/deploy options are available. Default values shown."
 	@echo "	..."
 	@echo "	IMAGE_REGISTRY="$$IMAGE_REGISTRY
