@@ -1,37 +1,47 @@
-# this is NOT for secrets
-variables:
-  key: value
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:6
 
-#image: docker:stable
-#image: alpine:latest
-#before_script:
-# - apk -U add make git
- #- apt-get update --yes
- #- apt-get install --yes cmake
- #- docker info
+before_script:
+  - npm install
 
-#services:
-#- docker:dind
-#- docker
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+    - node_modules/
 
-stages:
-  - build
-  - test
-  #- deploy
+test:lint:
+  script:
+    - npm run lint
 
-job 1:
-  stage: build
-  #script: DOCKER_USERNAME="blah" echo "user=$DOCKER_USERNAME"
-  script: make build
+test:vulnerabilities:
+  script:
+    - npm run vuln-test
 
-job 2:
-  stage: test
-  script: make test-unit
+# Supported node versions can be found here:
+# https://github.com/nodejs/LTS#lts_schedule
+# jest does not support node < 4
+# https://facebook.github.io/jest/docs/troubleshooting.html#compatibility-issues
+test:node:6:
+  script:
+    - npm install -g codecov
+    - npm run build
+    - npm test && codecov
 
-job 3:
-  stage: test
-  script: make test-container-scan
+test:node:7:
+  image: node:7
+  script:
+    - npm run build
+    - npm test
 
-#job 4:
-#  stage: deploy
-#  script: make deploy
+# Publish tagged versions to npm
+publish:
+  stage: deploy
+  only:
+    - tags
+    - triggers
+  script:
+    - npm run build
+    #- echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    #- npm publish
