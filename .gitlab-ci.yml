@@ -57,6 +57,16 @@ test-static-code-analysis:
 #  stage: deploy
 #  script: make deploy
 
+deploy_dev:
+  stage: deploy
+  script:
+    - echo "Deploy to dev server"
+  environment:
+    name: DEV
+    #url: https://staging.example.com
+  only:
+  - develop
+
 deploy_staging:
   stage: deploy
   script:
