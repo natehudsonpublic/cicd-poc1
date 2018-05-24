@@ -10,6 +10,9 @@ fi
 if [[ ! -z $CI_COMMIT_REF_NAME ]]; then
 	echo "# overriding GIT_BRANCH with gitlab CI_COMMIT_REF_NAME"
 	GIT_BRANCH=$CI_COMMIT_REF_NAME
+
+if [[ $GIT_BRANCH == "develop" ]]; then
+	IMAGE_TAG="dev-${IMAGE_TAG}"
 fi
 
 echo "GIT_SHA=${GIT_SHA}"
