@@ -1,0 +1,58 @@
+
+# this is NOT for secrets
+variables:
+  key: value
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+    - node_modules/
+
+image: node
+
+# install locally until we have everything running in a docker container
+before_script:
+ - npm install
+
+#image: docker:stable
+#image: alpine:latest
+#before_script:
+# - apk -U add make git
+ #- apt-get update --yes
+ #- apt-get install --yes cmake
+ #- docker info
+
+#services:
+#- docker:dind
+#- docker
+
+stages:
+  - build
+  - test
+  #- deploy
+
+build:
+  stage: build
+  #script: DOCKER_USERNAME="blah" echo "user=$DOCKER_USERNAME"
+  script: make build
+
+test-unit:
+  stage: test
+  script: make test-unit
+
+test-container-scan::
+  stage: test
+  script: make test-container-scan
+
+test-static-code-analysis:
+  stage: test
+  script: make test-static-code-analysis
+
+#job 3:
+#  stage: test
+#  script: make test-container-scan
+
+#job 4:
+#  stage: deploy
+#  script: make deploy
