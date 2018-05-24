@@ -30,7 +30,7 @@ before_script:
 stages:
   - build
   - test
-  #- deploy
+  - deploy
 
 build:
   stage: build
@@ -56,3 +56,13 @@ test-static-code-analysis:
 #job 4:
 #  stage: deploy
 #  script: make deploy
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: STG
+    #url: https://staging.example.com
+  only:
+  - stg
