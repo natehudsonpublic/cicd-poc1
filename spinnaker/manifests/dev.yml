@@ -1,59 +1,51 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cicdpoc1-config
-  namespace: default
-data:
-  NEW_FEATURE: "true"
+- apiVersion: v1
+  data:
+    NEW_FEATURE: 'true'
+  kind: ConfigMap
+  metadata:
+    name: cicdpoc1-config
+    namespace: dev
 
----
+- apiVersion: apps/v1beta2
+  kind: Deployment
+  metadata:
+    labels:
+      app: cicdpoc1-dev
+      stack: dev
+    name: cicd-poc1-dev
+    namespace: dev
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: cicdpoc1-dev
+    template:
+      metadata:
+        labels:
+          app: cicdpoc1-dev
+      spec:
+        containers:
+          - envFrom:
+              - configMapRef:
+                  name: cicdpoc1-config
+            image: index.docker.io/natehudsonpublic/cicd-poc1
+            name: primary
+            ports:
+              - containerPort: 8080
+            readinessProbe:
+              httpGet:
+                path: /
+                port: 8080
 
-apiVersion: apps/v1beta2
-kind: Deployment
-metadata:
-  name: cicd-poc1
-  namespace: default
-  labels:
-    source: demo
-    stack: develop
-    app: cicdpoc1
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      source: demo
-      app: cicdpoc1
-  template:
-    metadata:
-      labels:
-        source: demo
-        app: cicdpoc1
-    spec:
-      containers:
-      - name: primary
-        image: 'index.docker.io/natehudsonpublic/cicd-poc1'
-        ports:
-        - containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-        envFrom:
-        - configMapRef:
-            name: cicdpoc1-config
-
----
-
-kind: Service
-apiVersion: v1
-metadata:
-  name: cicdpoc1
-  namespace: default
-spec:
-  selector:
-    source: demo
-    app: cicdpoc1
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: cicdpoc1-dev
+    namespace: dev
+  spec:
+    ports:
+      - port: 80
+        protocol: TCP
+        targetPort: 8080
+    selector:
+      app: cicdpoc1-dev

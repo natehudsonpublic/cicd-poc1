@@ -10,13 +10,16 @@ fi
 if [[ ! -z $CI_COMMIT_REF_NAME ]]; then
 	echo "# overriding GIT_BRANCH with gitlab CI_COMMIT_REF_NAME"
 	GIT_BRANCH=$CI_COMMIT_REF_NAME
+fi
 
 if [[ $GIT_BRANCH == "develop" ]]; then
 	IMAGE_TAG="dev-${IMAGE_TAG}"
-fi
-
-if [[ $GIT_BRANCH == "stg" ]]; then
+elif [[ $GIT_BRANCH == "stg" ]]; then
 	IMAGE_TAG="stg-${IMAGE_TAG}"
+elif [[ $GIT_BRANCH == "master" ]]; then
+	IMAGE_TAG="prod-${IMAGE_TAG}"
+else
+	IMAGE_TAG="unknown-${IMAGE_TAG}"
 fi
 
 echo "GIT_SHA=${GIT_SHA}"
@@ -41,5 +44,3 @@ docker images | grep -i ${IMAGE_NAME}
 
 echo "# push"
 docker push $DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG}
-
-
