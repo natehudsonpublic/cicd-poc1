@@ -24,10 +24,12 @@ function spincpu() {
 app.get('/', (req, res) => {
   //spincpu();
   res.send('<img src="https://shift.io/images/logo.svg"><h1>CI/CD PoC #1</h1>\n<br \><pre>sha:'+GIT_SHA+'</pre><pre>branch:'+GIT_BRANCH+'</pre>');
+  console.log('served /');
 });
 
 app.get('/healthCheck', (req, res) => {
   res.send('healthy\n');
+  console.log('served /healthCheck');
 });
 
 app.listen(PORT, HOST);
