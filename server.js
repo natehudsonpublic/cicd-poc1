@@ -22,7 +22,7 @@ function spincpu() {
 }
 
 app.get('/', (req, res) => {
-  spincpu();
+  //spincpu();
   res.send('<img src="https://shift.io/images/logo.svg"><h1>CI/CD PoC #1</h1>\n<br \><pre>sha:'+GIT_SHA+'</pre><pre>branch:'+GIT_BRANCH+'</pre>');
 });
 
