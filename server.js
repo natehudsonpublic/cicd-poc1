@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/healthCheck', (req, res) => {
-  spincpu();
   res.send('healthy\n');
 });
 
