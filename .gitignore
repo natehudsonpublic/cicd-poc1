@@ -1,4 +1,4 @@
-concourse-credentials.yml
+concourse/concourse-credentials.yml
 node_modules
 npm-debug.log
 builds/
