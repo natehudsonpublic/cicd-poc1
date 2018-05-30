@@ -12,6 +12,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.1"
+    "crypto": "^1.0.1",
+    "express": "^4.16.1",
+    "sleep": "^5.1.1"
   }
 }
