@@ -1,8 +1,8 @@
 {
   "name": "cicd-poc1",
-  "description": "Simple Travis-CI check for JSHint (Code Linting)",
+  "description": "Simple nodeJS app for CI/CD testing",
   "author": "natehudsonpublic",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "main": "server.js",
   "devDependencies": {
     "jshint": "^2.9.5"
