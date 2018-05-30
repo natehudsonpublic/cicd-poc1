@@ -23,7 +23,7 @@ function spincpu() {
 
 app.get('/', (req, res) => {
   //spincpu();
-  res.send('<img src="https://shift.io/images/logo.svg"><h1>CI/CD PoC #1</h1>\n<br \><pre>sha:'+GIT_SHA+'</pre><pre>branch:'+GIT_BRANCH+'</pre>');
+  res.send('<img src="https://shift.io/images/logo.svg"><h1>CI/CD PoC #1</h1>\n<br \><pre>sha:'+GIT_SHA+'</pre><pre>branch:'+GIT_BRANCH+'</pre>v0.1.2');
   console.log('served /');
 });
 
@@ -34,5 +34,3 @@ app.get('/healthCheck', (req, res) => {
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
-
-
